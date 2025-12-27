@@ -1,15 +1,35 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import * as React from 'react'
+import {
+  HeadContent,
+  Outlet,
+  Scripts,
+  createRootRoute,
+} from "@tanstack/react-router";
 
 export const Route = createRootRoute({
-    component: RootComponent,
-})
+  component: () => <RootComponent />,
+  head: () => ({
+    meta: [
+      {
+        title: "Kayan Healthcare",
+        description:
+          "Kayan Healthcare, a place for all your healthcare needs don't hesitate to contact us",
+      },
+    ],
+    links: {
+      rel: "icon",
+      type: "image/png",
+      href: "/kayan.png",
+    },
+  }),
+});
 
-function RootComponent() {
+const RootComponent = () => {
   return (
-    <React.Fragment>
-      {/* <div>Hello "__root"!</div> */}
+    <>
+      <HeadContent />
       <Outlet />
-    </React.Fragment>
-  )
-}
+      <Scripts />
+    </>
+  );
+};
+
