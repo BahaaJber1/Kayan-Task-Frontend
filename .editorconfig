@@ -1,0 +1,8 @@
+root = true # Everything which is on the same folder its going to be formatted based on the rules below
+
+[*] # Applies to all files
+charset = utf-8
+end_of_line = crlf # The end of file for linux applications
+indent_size = 2
+indent_style = space
+insert_final_newline = true
