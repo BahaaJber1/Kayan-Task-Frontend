@@ -11,7 +11,7 @@ const RouteComponent = () => {
   return (
     <Container
       className={cn(
-        "min-h-screen items-center justify-center bg-linear-to-br from-green-300 to-blue-300",
+        "to-kayan-accent from-kayan-green min-h-screen items-center justify-center bg-linear-to-br",
       )}
     >
       <Container>
