@@ -1,12 +1,7 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@app/components/ui/select.jsx";
 import { authFormSchema } from "@app/zod/authForm.schema.js";
-import { Button } from "@components/ui/button.jsx";
+import Logo from "@components/application/Logo.jsx";
+import MotionButton from "@components/application/MotionButton.jsx";
+
 import {
   Field,
   FieldError,
@@ -15,25 +10,30 @@ import {
 } from "@components/ui/field.jsx";
 import { Input } from "@components/ui/input.jsx";
 import { Label } from "@components/ui/label.jsx";
-import { DevTool } from "@hookform/devtools";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/ui/select.jsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
 import { AnimatePresence, motion as m } from "motion/react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import Logo from "../Logo.jsx";
 
-const AuthForm = ({}) => {
+const AuthForm = () => {
   const [mode, setMode] = useState("signIn");
   const form = useForm({
     mode: "all",
     defaultValues: {
       email: "",
       password: "",
-      role: mode === "signUp" ? "" : undefined,
+      role: undefined,
     },
-    resolver: zodResolver(authFormSchema(mode)),
+    resolver: zodResolver(authFormSchema),
   });
 
   const { handleSubmit, control, reset, formState, setValue } = form;
@@ -42,11 +42,12 @@ const AuthForm = ({}) => {
   const onSubmit = (data) => {
     console.log(data);
     reset();
-    setValue("role", "");
+    setValue("role", undefined);
   };
 
   const toggleMode = () => {
     setMode(mode === "signIn" ? "signUp" : "signIn");
+    setValue("role", undefined);
   };
 
   return (
@@ -134,21 +135,22 @@ const AuthForm = ({}) => {
             )}
           </AnimatePresence>
         </FieldGroup>
-        <Button
+        <MotionButton
           type="submit"
           className={cn("w-full")}
           disabled={!isValid || !isDirty}
+          whileHover={{ scale: 1.02 }}
         >
           {mode === "signIn" ? "Sign In" : "Sign Up"}
-        </Button>
+        </MotionButton>
       </form>
       <p>
         {mode === "signIn"
           ? "Don't have an account? "
           : "Already have an account? "}
-        <Button variant="link" size="xs" onClick={toggleMode}>
+        <MotionButton variant="link" size="xs" onClick={toggleMode}>
           {mode === "signIn" ? "Sign Up" : "Sign In"}
-        </Button>
+        </MotionButton>
       </p>
     </Container>
   );

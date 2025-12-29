@@ -8,6 +8,7 @@ import {
 } from "@components/ui/popover";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
+import MotionButton from "@components/application/MotionButton.jsx";
 
 const DatePicker = ({ value, onChange, ...props }) => {
   const [open, setOpen] = useState(false);
@@ -16,7 +17,7 @@ const DatePicker = ({ value, onChange, ...props }) => {
     <Container>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <button
+          <MotionButton
             id="date"
             className={cn(
               "hover:bg-accent hover:text-accent-foreground/ dark:hover:bg-accent/50 focus:ring-ring focus:ring-offset-background flex w-full items-center justify-between rounded-md border px-3 py-2 font-normal focus:ring-2 focus:ring-offset-2 focus:outline-none",
@@ -25,7 +26,7 @@ const DatePicker = ({ value, onChange, ...props }) => {
           >
             {value ? value.toLocaleDateString() : "Select date"}
             <ChevronDownIcon size={15} />
-          </button>
+          </MotionButton>
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar

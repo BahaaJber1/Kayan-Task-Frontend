@@ -4,6 +4,8 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
+import Providers from "@ui/Providers.jsx";
+import { useDispatch } from "react-redux";
 
 export const Route = createRootRoute({
   component: () => <RootComponent />,
@@ -26,9 +28,11 @@ export const Route = createRootRoute({
 const RootComponent = () => {
   return (
     <>
-      <HeadContent />
-      <Outlet />
-      <Scripts />
+      <Providers>
+        <HeadContent />
+        <Outlet />
+        <Scripts />
+      </Providers>
     </>
   );
 };

@@ -1,7 +1,5 @@
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
-import { motion as m } from "motion/react";
 
 import { cn } from "@app/lib/utils";
 
@@ -37,11 +35,6 @@ const buttonVariants = cva(
   },
 );
 
-const buttonVariant = {
-  hover: { scale: 1.05 },
-  tap: { scale: 0.95 },
-};
-
 function Button({
   className,
   variant = "default",
@@ -50,19 +43,14 @@ function Button({
   ...props
 }) {
   const Comp = asChild ? Slot : "button";
-  const CompMotion = m.create(Comp);
 
   return (
-    <CompMotion
+    <Comp
       data-slot="button"
       data-variant={variant}
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-      variants={buttonVariant}
-      whileHover="hover"
-      whileTap="tap"
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
     />
   );
 }

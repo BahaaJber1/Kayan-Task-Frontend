@@ -1,5 +1,6 @@
 import { Stethoscope } from "lucide-react";
-import { BsCalendar2, BsWatch } from "react-icons/bs";
+import { BsCalendar2 } from "react-icons/bs";
+import { CiClock2 } from "react-icons/ci";
 
 const cardData = [
   {
@@ -12,7 +13,7 @@ const cardData = [
   {
     id: 2,
     title: "Upcoming",
-    icon: BsWatch,
+    icon: CiClock2,
     iconColor: "#ff6900",
     number: "1",
   },

@@ -11,7 +11,8 @@ const animatedSVGVariant = {
   },
 };
 
-const Logo = ({ className, size = 50, role }) => {
+const Logo = ({ className, size = 50 }) => {
+  const role = "doctor"; // placeholder for now
   return (
     <Container className={cn("items-center gap-0 px-3")}>
       <Container className={cn("items-center", className)}>

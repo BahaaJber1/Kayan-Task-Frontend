@@ -65,3 +65,39 @@
 - Add `React Query` for data fetching and state management.
 - Add `react-toast` for notifications & `Redux` for global state management.
 </details>
+
+---
+
+<details>
+<summary>
+
+## Dec 29, 2025:
+
+</summary>
+
+### Updates: (@BahaaJber1)
+
+1. Updated the `Visit` component to be as a dialog modal that shows detailed information about a specific visit when clicked.
+1. Added a "Cancel Visit" button in the `Visit` component for scheduled visits, allowing users to cancel their appointments.
+1. Enhanced the `Visit` component to display the visit status with corresponding icons for better visual
+1. Implemented the `DoctorDashboard` component to display doctor-specific information, including patient visits.
+1. Created a card data structure for both patient and doctor dashboards to display key metrics.
+1. Updated the `Dashboard` route to conditionally render either the `PatientDashboard` or `DoctorDashboard` based on the user's role.
+1. Refined the `Card` component to accept dynamic data and display it appropriately in both dashboards.
+1. Updated the Visit details for the doctor view to show patient information.
+1. Improving the overall styling and layout of the dashboards for better user experience.
+1. Fixed minor bugs and improved code organization for better maintainability.
+1. Enhanced the `Logo` component styling for better alignment and appearance.
+1. Divided the code into smaller, reusable components for better readability and maintainability.
+1. Updated the `AuthForm` component to reset the role field when switching between sign-in and sign-up modes to prevent stale data.
+1. Updated the `VisitDetails` component for the patient view to make them look the same as the doctor view.
+1. Updated a bug in the `Button` component from shadcn/ui where it wasn't compatible with motion props and causing infinite rerendering.
+1. Implemented the dark mode toggle functionality in the `ToggleTheme` component using Redux Toolkit for state management.
+1. Added a hook `useScrollToBottom` to scroll to the bottom of a treatment element when a new treatment is added.
+
+## TODO:
+
+- Implement the (finance) dashboards.
+- Add `React Query` for data fetching and state management. After creating the backend APIs.
+- Add `react-toast` for notifications.
+</details>

@@ -49,7 +49,7 @@ const Card = ({ card, ...props }) => {
 
       <Container
         className={cn("absolute -inset-1")}
-        style={{ backgroundColor: iconColor, filter: "blur(10px)" }}
+        style={{ backgroundColor: `${iconColor}70`, filter: "blur(10px)" }}
         variants={backgroundVariants}
       />
     </Container>
