@@ -48,7 +48,7 @@ const statusColors = {
 
 const Visit = ({ visit }) => {
   const [open, setOpen] = useState(false);
-  const role = "doctor"; // placeholder for now
+  const role = "finance"; // placeholder for now
   const { id, date, doctor, time, status, patient } = visit;
   const bgColor = statusColors[status];
 

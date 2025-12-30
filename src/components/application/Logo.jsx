@@ -1,7 +1,7 @@
 import { cn } from "@lib/utils.js";
-import { GiHealthPotion } from "react-icons/gi";
+import Container from "@ui/Container.jsx";
 import { motion as m } from "motion/react";
-import Container from "@app/ui/Container.jsx";
+import { GiHealthPotion } from "react-icons/gi";
 
 const AnimatedSVG = m.create(GiHealthPotion);
 const animatedSVGVariant = {
@@ -11,22 +11,30 @@ const animatedSVGVariant = {
   },
 };
 
-const Logo = ({ className, size = 50 }) => {
-  const role = "doctor"; // placeholder for now
+const Logo = ({ className, size = 50, showRoleText = false }) => {
+  const role = "finance"; // placeholder for now
+
   return (
-    <Container className={cn("items-center gap-0 px-3")}>
-      <Container className={cn("items-center", className)}>
-        <span className={cn("bg-kayan-accent rounded-full p-3")}>
-          <AnimatedSVG
-            size={size}
-            className={cn("text-white")}
-            variants={animatedSVGVariant}
-            animate="animate"
-          />
-        </span>
+    <Container className={cn("flex-row items-center")}>
+      <span className={cn("bg-kayan-accent rounded-full p-3")}>
+        <AnimatedSVG
+          size={size}
+          className={cn("text-white")}
+          variants={animatedSVGVariant}
+          animate="animate"
+        />
+      </span>
+      {!showRoleText && (
         <h2 className={cn("text-2xl font-semibold")}>Healthcare Portal</h2>
-      </Container>
-      {role && <Container>{role} account</Container>}
+      )}
+      {showRoleText && (
+        <Container className={cn("gap-1")}>
+          <h2 className={cn("text-2xl font-semibold")}>Healthcare Portal</h2>
+          <span className={cn("text-foreground/75 capitalize")}>
+            {role} account
+          </span>
+        </Container>
+      )}
     </Container>
   );
 };

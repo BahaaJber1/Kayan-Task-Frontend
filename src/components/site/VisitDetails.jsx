@@ -69,7 +69,7 @@ const errorVariants = {
 };
 
 const VisitDetails = ({ visit, onClose }) => {
-  const role = "doctor"; // placeholder for now
+  const role = "finance"; // placeholder for now
   const {
     id,
     date,
@@ -111,7 +111,7 @@ const VisitDetails = ({ visit, onClose }) => {
     onClose();
   };
 
-  if (role === "patient")
+  if (role === "patient" || role === "finance")
     return (
       <Container
         variants={parentSlideVariants}

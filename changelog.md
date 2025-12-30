@@ -101,3 +101,32 @@
 - Add `React Query` for data fetching and state management. After creating the backend APIs.
 - Add `react-toast` for notifications.
 </details>
+
+---
+
+<details>
+<summary>
+
+## Dec 30, 2025:
+
+</summary>
+
+### Updates: (@BahaaJber1)
+
+1. Updated the `Logo` component to conditionally display the user's role next to the logo based on a prop.
+1. Refined the `Header` component to pass the necessary props to the `Logo` component for displaying the role text.
+1. Added `@tanstack/react-table` package for advanced table functionalities.
+1. Created the `VisitsTable` component to display a table of visits for the finance role using Tanstack Table.
+1. Implemented column filtering and pagination in the `VisitsTable` component for better data management.
+1. Update the `StatusBadge` component to accept an optional prop to hide the status text and only show the icon.
+1. Updated the `TableData` component to utilize the `StatusBadge` component for displaying visit statuses with icons.
+1. Implemented the `FinanceDashboard` component to display financial metrics and data for the finance role.
+1. Updated the `Dashboard` route to conditionally render the `FinanceDashboard` based on the user's role.
+1. Improved the styling and layout of the `VisitsTable` and `FinanceDashboard` components for better user experience.
+
+## TODO:
+
+- Add `React Query` for data fetching and state management. After creating the backend APIs.
+- Add `react-toast` for notifications.
+- Implement the `Cancel Visit` functionality for the **patient** & **doctor** roles.
+</details>

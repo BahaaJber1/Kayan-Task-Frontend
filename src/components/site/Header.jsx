@@ -12,9 +12,9 @@ const Navbar = () => {
         "bg-background/5 sticky top-0 z-50 flex w-full items-center justify-between rounded-lg px-5 py-4 backdrop-blur-lg",
       )}
     >
-      <Logo className={cn("flex-row")} size={30} />
+      <Logo className={cn("flex-row")} size={30} showRoleText={true} />
       <Container className={cn("flex-row")}>
-        <MotionButton variant="outline" onClick={() => alert("logout")}>
+        <MotionButton variant="outline" onClick={() => console.log("logout")}>
           <BiExit /> Logout
         </MotionButton>
         <ToggleTheme />

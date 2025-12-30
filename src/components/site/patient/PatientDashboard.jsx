@@ -32,6 +32,7 @@ import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
 import { Controller, useForm } from "react-hook-form";
 import { BiCalendarPlus } from "react-icons/bi";
+import { useState } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -50 },
@@ -75,6 +76,7 @@ const visitItemVariants = {
 };
 
 const PatientDashboard = () => {
+  const [openDialog, setOpenDialog] = useState(false);
   const form = useForm({
     mode: "all",
     defaultValues: {
@@ -91,6 +93,7 @@ const PatientDashboard = () => {
   const onSubmit = (data) => {
     console.log(data);
     reset();
+    setOpenDialog(false);
   };
 
   return (
@@ -121,8 +124,8 @@ const PatientDashboard = () => {
           );
         })}
       </Container>
-      <Container className={cn("md:w-1/4")}>
-        <Dialog>
+      <Container className={cn("flex-row justify-end")}>
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogTrigger asChild>
             <MotionButton size="lg">
               <BiCalendarPlus size={50} />
@@ -219,7 +222,11 @@ const PatientDashboard = () => {
                 />
               </FieldGroup>
 
-              <MotionButton type="submit" disabled={!isDirty || !isValid}>
+              <MotionButton
+                type="submit"
+                disabled={!isDirty || !isValid}
+                className={cn("w-1/2 self-end")}
+              >
                 Book Visit
               </MotionButton>
             </form>

@@ -4,13 +4,14 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { cn } from "@app/lib/utils.js";
 import PatientDashboard from "@components/site/patient/PatientDashboard.jsx";
 import DoctorDashboard from "@components/site/doctor/DoctorDashboard.jsx";
+import FinanceDashboard from "@components/site/finance/FinanceDashboard.jsx";
 
 export const Route = createFileRoute("/dashboard")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const role = "doctor"; // This would be fetched from user context/auth in a real app
+  const role = "finance"; // This would be fetched from user context/auth in a real app
   return (
     <Container className={cn("mx-auto max-w-7xl px-4 py-6")}>
       <Navbar />
@@ -19,6 +20,7 @@ function RouteComponent() {
       </Container>
       {role === "patient" && <PatientDashboard />}
       {role === "doctor" && <DoctorDashboard />}
+      {role === "finance" && <FinanceDashboard />}
     </Container>
   );
 }

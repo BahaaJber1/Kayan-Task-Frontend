@@ -1,4 +1,5 @@
 import { cn } from "@lib/utils.js";
+import { cloneElement } from "react";
 import { CgSandClock } from "react-icons/cg";
 import { GrStatusGood } from "react-icons/gr";
 import { MdCancel } from "react-icons/md";
@@ -9,8 +10,12 @@ const statusConfig = {
   Cancelled: { color: "#ef4444", icon: <MdCancel /> },
 };
 
-const StatusBadge = ({ status }) => {
+const StatusBadge = ({ status, showText = true }) => {
   const { color, icon } = statusConfig[status];
+
+  if (!showText) {
+    return cloneElement(icon, { color, size: 20 });
+  }
 
   return (
     <span
