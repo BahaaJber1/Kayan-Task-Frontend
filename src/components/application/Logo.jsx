@@ -12,7 +12,7 @@ const animatedSVGVariant = {
 };
 
 const Logo = ({ className, size = 50, showRoleText = false }) => {
-  const role = "finance"; // placeholder for now
+  const role = "doctor"; // placeholder for now
 
   return (
     <Container className={cn("flex-row items-center")}>

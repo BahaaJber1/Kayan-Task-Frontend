@@ -130,3 +130,27 @@
 - Add `react-toast` for notifications.
 - Implement the `Cancel Visit` functionality for the **patient** & **doctor** roles.
 </details>
+
+---
+
+<details>
+<summary>
+
+## Dec 31, 2025:
+
+</summary>
+
+### Updates: (@BahaaJber1)
+
+1. Updated the `AuthForm` component & `authForm.schema` to include a name field during sign-up.
+1. Modified the `onSubmit` function in the `AuthForm` component to send a POST request to the backend API for user registration during sign-up using Axios.
+1. Added axios package for making HTTP requests.
+
+## TODO:
+
+- Add `React Query` for data fetching and state management. After creating the backend APIs.
+- Add `react-toast` for notifications.
+- Implement the `Cancel Visit` functionality for the **patient** & **doctor** roles.
+- Separate the `FieldError` into its own component for the animation part.
+- Implement the `logout` functionality in the `Header` component.
+</details>

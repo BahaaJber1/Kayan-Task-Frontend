@@ -23,6 +23,7 @@ import Container from "@ui/Container.jsx";
 import { AnimatePresence, motion as m } from "motion/react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import axios from "axios";
 
 const AuthForm = () => {
   const [mode, setMode] = useState("signIn");
@@ -32,6 +33,7 @@ const AuthForm = () => {
       email: "",
       password: "",
       role: undefined,
+      name: undefined,
     },
     resolver: zodResolver(authFormSchema),
   });
@@ -39,15 +41,32 @@ const AuthForm = () => {
   const { handleSubmit, control, reset, formState, setValue } = form;
   const { isDirty, isValid } = formState;
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    if (mode === "signUp") {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/users/signup",
+        data,
+      );
+      console.log({ response });
+    }
+    if (mode === "signIn") {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/users/login",
+        data,
+      );
+      console.log({ response });
+    }
+
     console.log(data);
     reset();
     setValue("role", undefined);
+    setValue("name", undefined);
   };
 
   const toggleMode = () => {
     setMode(mode === "signIn" ? "signUp" : "signIn");
     setValue("role", undefined);
+    setValue("name", undefined);
   };
 
   return (
@@ -125,6 +144,28 @@ const AuthForm = () => {
                           <SelectItem value="finance">Finance</SelectItem>
                         </SelectContent>
                       </Select>
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              </m.span>
+            )}
+            {mode === "signUp" && (
+              <m.span
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Controller
+                  control={control}
+                  name="name"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel>Name</FieldLabel>
+                      <Input {...field} type="text" placeholder="Name" />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}

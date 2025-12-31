@@ -15,6 +15,9 @@ const authFormSchema = z.object({
       message: "Password must contain at least one special character",
     }),
   role: z.optional(z.enum(["patient", "doctor", "finance"])),
+  name: z.optional(
+    z.string().min(3, "Name must be at least 3 characters long"),
+  ),
 });
 
 export { authFormSchema };

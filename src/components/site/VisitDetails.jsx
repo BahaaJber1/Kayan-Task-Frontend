@@ -69,7 +69,7 @@ const errorVariants = {
 };
 
 const VisitDetails = ({ visit, onClose }) => {
-  const role = "finance"; // placeholder for now
+  const role = "doctor"; // placeholder for now
   const {
     id,
     date,

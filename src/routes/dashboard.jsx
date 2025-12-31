@@ -11,7 +11,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function RouteComponent() {
-  const role = "finance"; // This would be fetched from user context/auth in a real app
+  const role = "doctor"; // This would be fetched from user context/auth in a real app
   return (
     <Container className={cn("mx-auto max-w-7xl px-4 py-6")}>
       <Navbar />
@@ -24,4 +24,3 @@ function RouteComponent() {
     </Container>
   );
 }
-
