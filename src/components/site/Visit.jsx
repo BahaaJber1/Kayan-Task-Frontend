@@ -11,6 +11,7 @@ import Container from "@ui/Container.jsx";
 import { useState } from "react";
 import { BiCalendar, BiUser } from "react-icons/bi";
 import { BsClock } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 const visitVariants = {
   initial: {},
@@ -48,7 +49,7 @@ const statusColors = {
 
 const Visit = ({ visit }) => {
   const [open, setOpen] = useState(false);
-  const role = "doctor"; // placeholder for now
+  const { role } = useSelector((state) => state.user.user);
   const { id, date, doctor, time, status, patient } = visit;
   const bgColor = statusColors[status];
 

@@ -1,11 +1,10 @@
 import {
   HeadContent,
-  Outlet,
   Scripts,
-  createRootRoute,
+  createRootRoute
 } from "@tanstack/react-router";
+import Layout from "@ui/Layout.jsx";
 import Providers from "@ui/Providers.jsx";
-import { useDispatch } from "react-redux";
 
 export const Route = createRootRoute({
   component: () => <RootComponent />,
@@ -30,10 +29,9 @@ const RootComponent = () => {
     <>
       <Providers>
         <HeadContent />
-        <Outlet />
+        <Layout />
         <Scripts />
       </Providers>
     </>
   );
 };
-

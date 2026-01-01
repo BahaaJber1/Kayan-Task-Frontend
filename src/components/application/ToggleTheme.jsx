@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setTheme } from "@store/slices/theme.js";
-import { Moon, Sun } from "lucide-react";
 import MotionButton from "@components/application/MotionButton.jsx";
+import { setTheme } from "@store/slices/theme.slice.js";
+import { Moon, Sun } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
 const ToggleTheme = () => {
   const dispatch = useDispatch();

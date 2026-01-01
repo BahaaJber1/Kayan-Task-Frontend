@@ -1,7 +1,6 @@
-import { authFormSchema } from "@app/zod/authForm.schema.js";
+import { authFormSchema } from "@zod/authForm.schema.js";
 import Logo from "@components/application/Logo.jsx";
 import MotionButton from "@components/application/MotionButton.jsx";
-
 import {
   Field,
   FieldError,
@@ -19,14 +18,20 @@ import {
 } from "@components/ui/select.jsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@lib/utils.js";
+import { setUser } from "@app/store/slices/user.slice.js";
+import { useNavigate } from "@tanstack/react-router";
 import Container from "@ui/Container.jsx";
+import axios from "axios";
 import { AnimatePresence, motion as m } from "motion/react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import axios from "axios";
+import { useDispatch } from "react-redux";
 
 const AuthForm = () => {
-  const [mode, setMode] = useState("signIn");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [mode, setMode] = useState("signin");
   const form = useForm({
     mode: "all",
     defaultValues: {
@@ -42,29 +47,36 @@ const AuthForm = () => {
   const { isDirty, isValid } = formState;
 
   const onSubmit = async (data) => {
-    if (mode === "signUp") {
-      const response = await axios.post(
+    let result;
+    if (mode === "signup") {
+      result = await axios.post(
         "http://localhost:5000/api/v1/users/signup",
         data,
+        { withCredentials: true },
       );
-      console.log({ response });
     }
-    if (mode === "signIn") {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/users/login",
+    if (mode === "signin") {
+      result = await axios.post(
+        "http://localhost:5000/api/v1/users/signin",
         data,
+        { withCredentials: true },
       );
-      console.log({ response });
     }
 
-    console.log(data);
+    if (result.status !== 200) {
+      return;
+    }
+
+    dispatch(setUser(result.data.user));
+    navigate({ to: "/dashboard" });
+
     reset();
     setValue("role", undefined);
     setValue("name", undefined);
   };
 
   const toggleMode = () => {
-    setMode(mode === "signIn" ? "signUp" : "signIn");
+    setMode(mode === "signin" ? "signup" : "signin");
     setValue("role", undefined);
     setValue("name", undefined);
   };
@@ -76,7 +88,7 @@ const AuthForm = () => {
       <Container className={cn("items-center gap-2")}>
         <Logo />
         <p className={cn("text-foreground/50 text-sm")}>
-          {mode === "signIn" ? "Sign in" : "Sign up"} to experience the best
+          {mode === "signin" ? "Sign in" : "Sign up"} to experience the best
           healthcare services
         </p>
       </Container>
@@ -117,7 +129,7 @@ const AuthForm = () => {
             )}
           />
           <AnimatePresence>
-            {mode === "signUp" && (
+            {mode === "signup" && (
               <m.span
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -152,7 +164,7 @@ const AuthForm = () => {
                 />
               </m.span>
             )}
-            {mode === "signUp" && (
+            {mode === "signup" && (
               <m.span
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -182,15 +194,15 @@ const AuthForm = () => {
           disabled={!isValid || !isDirty}
           whileHover={{ scale: 1.02 }}
         >
-          {mode === "signIn" ? "Sign In" : "Sign Up"}
+          {mode === "signin" ? "Sign In" : "Sign Up"}
         </MotionButton>
       </form>
       <p>
-        {mode === "signIn"
+        {mode === "signin"
           ? "Don't have an account? "
           : "Already have an account? "}
         <MotionButton variant="link" size="xs" onClick={toggleMode}>
-          {mode === "signIn" ? "Sign Up" : "Sign In"}
+          {mode === "signin" ? "Sign Up" : "Sign In"}
         </MotionButton>
       </p>
     </Container>

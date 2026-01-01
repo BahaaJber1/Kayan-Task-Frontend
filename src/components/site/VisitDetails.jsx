@@ -1,7 +1,5 @@
-import { visitDetailsSchema } from "@app/zod/visitDetails.schema.js";
-import StatusBadge from "@components/site/StatusBadge.jsx";
 import MotionButton from "@components/application/MotionButton.jsx";
-
+import StatusBadge from "@components/site/StatusBadge.jsx";
 import {
   Field,
   FieldError,
@@ -11,12 +9,14 @@ import {
 import { Input } from "@components/ui/input.jsx";
 import { Textarea } from "@components/ui/textarea.jsx";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useScrollToBottom from "@hooks/useScrollToBottom.jsx";
 import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
+import { visitDetailsSchema } from "@zod/visitDetails.schema.js";
 import { AnimatePresence, motion as m } from "motion/react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { BiDollar, BiPlus, BiTrash } from "react-icons/bi";
-import useScrollToBottom from "@hooks/useScrollToBottom.jsx";
+import { useSelector } from "react-redux";
 
 const treatmentItemVariants = {
   hidden: {
@@ -69,7 +69,7 @@ const errorVariants = {
 };
 
 const VisitDetails = ({ visit, onClose }) => {
-  const role = "doctor"; // placeholder for now
+  const { role } = useSelector((state) => state.user.user);
   const {
     id,
     date,

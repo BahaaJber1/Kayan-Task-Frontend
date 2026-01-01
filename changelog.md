@@ -154,3 +154,34 @@
 - Separate the `FieldError` into its own component for the animation part.
 - Implement the `logout` functionality in the `Header` component.
 </details>
+
+---
+
+<details>
+<summary>
+
+## Jan 1, 2026:
+
+</summary>
+
+### Updates: (@BahaaJber1)
+
+1. Created `user` slice using Redux Toolkit to manage user authentication state globally.
+1. Updated the `AuthForm` component to dispatch the user data to the Redux store upon successful sign-in or sign-up.
+1. Implemented the `signout` functionality in the `Header` component to send a signout request to the backend and clear the user data from the Redux store upon successful signout.
+1. Updated the `role` instead of **placeholder**, now the data is fetched from the backend after signin/signup and reflects the ui accordingly.
+1. Created a new field for the **patient** `notes` in the `bookVisitSchema` and updated the `PatientDashboard` component to include a textarea for additional notes when booking a visit.
+1. Updated the alias imports for zod schemas to use the new `@zod` & `dev-data` aliases instead of `@app`.
+1. Created the logic for verifying if a user is authenticated each 12 hours using a `useEffect` hook in the `Layout.jsx` component that sends a request to the backend to check the user's authentication status and updates the Redux store accordingly, if the user is not authenticated, it redirects them to the sign-in page `/`, otherwise it allows them to access the protected routes `/dashboard`.
+1. Updated the `ProtectedRoute` component to check for the user's role from the Redux store to determine if they are authenticated and authorized to access protected routes. If not, it redirects them to the sign-in page `/`.
+1. Wrapped the entire application with the `ProtectedRoute` component
+
+
+## TODO:
+
+- Add `React Query` for data fetching and state management. After creating the backend APIs.
+- Add `react-toast` for notifications.
+- Implement the `Cancel Visit` functionality for the **patient** & **doctor** roles.
+- Separate the `FieldError` into its own component for the animation part.
+- Update the `PatientDashboard` to show the relevant data/errors after booking a visit.
+</details>

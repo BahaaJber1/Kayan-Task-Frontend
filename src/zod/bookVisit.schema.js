@@ -7,6 +7,10 @@ const bookVisitSchema = z.object({
     invalid_type_error: "Invalid date format",
   }),
   time: z.string().min(1, "Please select a time"),
+  notes: z
+    .string()
+    .min(1, "Notes are required")
+    .max(500, "Notes must be at most 500 characters"),
 });
 
 export { bookVisitSchema };

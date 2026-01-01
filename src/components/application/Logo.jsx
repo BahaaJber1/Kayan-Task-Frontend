@@ -2,6 +2,7 @@ import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
 import { motion as m } from "motion/react";
 import { GiHealthPotion } from "react-icons/gi";
+import { useSelector } from "react-redux";
 
 const AnimatedSVG = m.create(GiHealthPotion);
 const animatedSVGVariant = {
@@ -12,7 +13,7 @@ const animatedSVGVariant = {
 };
 
 const Logo = ({ className, size = 50, showRoleText = false }) => {
-  const role = "doctor"; // placeholder for now
+  const { role } = useSelector((state) => state.user.user);
 
   return (
     <Container className={cn("flex-row items-center")}>

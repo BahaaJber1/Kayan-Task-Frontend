@@ -29,7 +29,8 @@ export default defineConfig({
       "@store": resolve("./src/store"),
       "@utils": resolve("./src/utils"),
       "@ui": resolve("./src/ui"),
+      "@zod": resolve("./src/zod"),
+      "@dev-data": resolve("./src/dev-data"),
     },
   },
 });
-

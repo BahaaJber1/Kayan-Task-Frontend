@@ -1,11 +1,7 @@
-import { cardData } from "@app/dev-data/patient/card.data.js";
-import { visitsData } from "@app/dev-data/patient/visits.data.js";
-import { bookVisitSchema } from "@app/zod/bookVisit.schema.js";
+import MotionButton from "@components/application/MotionButton.jsx";
 import Card from "@components/site/Card.jsx";
 import DatePicker from "@components/site/DatePicker.jsx";
 import Visit from "@components/site/Visit.jsx";
-import MotionButton from "@components/application/MotionButton.jsx";
-
 import {
   Dialog,
   DialogContent,
@@ -27,12 +23,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select.jsx";
+import { Textarea } from "@components/ui/textarea.jsx";
+import { cardData } from "@dev-data/patient/card.data.js";
+import { visitsData } from "@dev-data/patient/visits.data.js";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
+import { bookVisitSchema } from "@zod/bookVisit.schema.js";
+import axios from "axios";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BiCalendarPlus } from "react-icons/bi";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -50 },
@@ -76,6 +78,7 @@ const visitItemVariants = {
 };
 
 const PatientDashboard = () => {
+  const user = useSelector((state) => state.user.user);
   const [openDialog, setOpenDialog] = useState(false);
   const form = useForm({
     mode: "all",
@@ -83,6 +86,7 @@ const PatientDashboard = () => {
       doctor: "",
       date: undefined,
       time: "",
+      notes: "",
     },
     resolver: zodResolver(bookVisitSchema),
   });
@@ -90,8 +94,20 @@ const PatientDashboard = () => {
   const { handleSubmit, reset, formState, control } = form;
   const { isDirty, isValid } = formState;
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/visits/book",
+      {
+        ...data,
+        patient: user,
+      },
+      { withCredentials: true },
+    );
+
+    if (response.status !== 200) {
+      return;
+    }
+
     reset();
     setOpenDialog(false);
   };
@@ -214,6 +230,25 @@ const PatientDashboard = () => {
                           <SelectItem value="16:00">04:00 PM</SelectItem>
                         </SelectContent>
                       </Select>
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="notes"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className={cn("text-xl font-semibold")}>
+                        Notes
+                      </FieldLabel>
+                      <Textarea
+                        {...field}
+                        placeholder="Medical notes and observations..."
+                        className={cn("min-h-[8lh] resize-none")}
+                      />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
