@@ -4,6 +4,8 @@ import Providers from "@ui/Providers.jsx";
 
 export const Route = createRootRoute({
   component: () => <RootComponent />,
+  // defaultErrorComponent: () => <div>There was an error!</div>,
+  // defaultNotFoundComponent: () => <div>404: Page Not Found</div>,
   head: () => ({
     meta: [
       {
