@@ -4,6 +4,7 @@ import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
 import Card from "@components/site/Card.jsx";
 import TableData from "@components/site/finance/VisitsTable/TableData.jsx";
+import { useGetVisits } from "@app/api/useVisits.js";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -50 },
@@ -47,6 +48,7 @@ const visitItemVariants = {
 };
 
 const FinanceDashboard = () => {
+  const { visits } = useGetVisits();
   return (
     <Container
       className={cn("gap-10")}
@@ -70,7 +72,7 @@ const FinanceDashboard = () => {
               variants={cardItemVariants}
               key={card.id}
             >
-              <Card card={card} />
+              <Card card={card} visits={visits} />
             </Container>
           );
         })}
@@ -85,7 +87,7 @@ const FinanceDashboard = () => {
         </Container>
 
         <Container>
-          <TableData />
+          <TableData visits={visits} />
         </Container>
       </Container>
     </Container>

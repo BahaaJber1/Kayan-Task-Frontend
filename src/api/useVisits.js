@@ -66,10 +66,34 @@ const useAcceptVisit = () => {
       await queryClient.invalidateQueries(["visits"]);
     },
     onError: (error) => {
-      toast.error(`${error.message} \n ${error.reason}`);
+      toast.error(
+        "You already have an active visit. Please complete it before accepting a new one.",
+      );
     },
   });
   return { acceptVisit, isPending };
 };
 
-export { useGetVisits, useBookVisit, useCompleteVisit, useAcceptVisit };
+const useCancelVisit = () => {
+  const { mutate: cancelVisit, isPending } = useMutation({
+    mutationFn: async ({ visitId }) => {
+      return await axiosInstance.post(`${BASE_URL}/visits/cancel`, { visitId });
+    },
+    onSuccess: async (data) => {
+      toast.success(`${data.data.message}`);
+      await queryClient.invalidateQueries(["visits"]);
+    },
+    onError: (error) => {
+      toast.error(`${error.message} \n ${error.reason}`);
+    },
+  });
+  return { cancelVisit, isPending };
+};
+
+export {
+  useGetVisits,
+  useBookVisit,
+  useCompleteVisit,
+  useAcceptVisit,
+  useCancelVisit,
+};

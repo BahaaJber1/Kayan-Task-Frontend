@@ -45,13 +45,13 @@ const backgroundVariants = {
 
 const statusColors = {
   completed: "#10b981",
-  scheduled: "#a855f7",
+  active: "#ff6900",
   cancelled: "#ef4444",
-  pending: "#f59e0b",
-  active: "#3b82f6",
+  pending: "#ffcc00",
 };
 
 const Visit = ({ visit }) => {
+  console.log({ visit });
   const [open, setOpen] = useState(false);
   const { role } = useSelector((state) => state.user.user);
   const { acceptVisit, isPending: isAccepting } = useAcceptVisit();
@@ -73,45 +73,43 @@ const Visit = ({ visit }) => {
         onOpenChange={setOpen}
         className={cn("overflow-y-scroll")}
       >
-        <DialogTrigger asChild>
+        <Container
+          className={cn("relative w-full rounded-lg")}
+          variants={visitVariants}
+          whileHover="hover"
+          initial="initial"
+        >
           <Container
-            className={cn("relative w-full rounded-lg")}
-            variants={visitVariants}
-            whileHover="hover"
-            initial="initial"
+            className={cn(
+              "bg-background relative z-10 flex-row justify-between rounded-lg p-5",
+            )}
           >
-            <Container
-              className={cn(
-                "bg-background relative z-10 cursor-pointer flex-row justify-between rounded-lg p-5",
-              )}
-            >
-              <Container className={cn("gap-2")}>
-                <span className={cn("flex items-center gap-5")}>
-                  Visit {id} <StatusBadge status={status} showText={false} />
-                </span>
-                <span
-                  className={cn("text-foreground/50 flex items-center gap-2")}
-                >
-                  <BiUser /> {doctorName}
-                </span>
-              </Container>
-              <Container className={cn("text-foreground/50 gap-2")}>
-                <span className={cn("flex items-center gap-2")}>
-                  <BiCalendar /> {date.toDateString()}
-                </span>
-                <span className={cn("flex items-center gap-2")}>
-                  <BsClock /> {time}
-                </span>
-              </Container>
+            <Container className={cn("text-foreground/50 gap-2")}>
+              <span className={cn("text-foreground flex items-center gap-5")}>
+                Visit {id} <StatusBadge status={status} showText={false} />
+              </span>
+              <span className={cn("flex items-center gap-2")}>
+                <BiUser /> {doctorName}
+              </span>
+              <span className={cn("flex items-center gap-2")}>
+                <BiCalendar /> {date.toDateString()}
+                <BsClock /> {time}
+              </span>
             </Container>
 
-            <Container
-              className={cn("absolute -inset-1")}
-              style={{ backgroundColor: `${bgColor}30`, filter: "blur(10px)" }}
-              variants={backgroundVariants}
-            />
+            <Container className={cn("flex-row-reverse")}>
+              <DialogTrigger asChild>
+                <MotionButton>Show Details</MotionButton>
+              </DialogTrigger>
+            </Container>
           </Container>
-        </DialogTrigger>
+
+          <Container
+            className={cn("absolute -inset-1")}
+            style={{ backgroundColor: `${bgColor}30`, filter: "blur(10px)" }}
+            variants={backgroundVariants}
+          />
+        </Container>
         <DialogContent
           className={cn("max-h-screen max-w-3xl! overflow-y-auto")}
         >
@@ -123,56 +121,57 @@ const Visit = ({ visit }) => {
   if (role === "doctor")
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
+        <Container
+          className={cn("relative w-full rounded-lg")}
+          variants={visitVariants}
+          whileHover="hover"
+          initial="initial"
+        >
           <Container
-            className={cn("relative w-full rounded-lg")}
-            variants={visitVariants}
-            whileHover="hover"
-            initial="initial"
+            className={cn(
+              "bg-background relative z-10 flex-row justify-between rounded-lg p-5",
+            )}
           >
-            <Container
-              className={cn(
-                "bg-background relative z-10 cursor-pointer flex-row justify-between rounded-lg p-5",
-              )}
-            >
-              <Container className={cn("text-foreground/50 gap-2")}>
-                <span className={cn("text-foreground flex items-center gap-5")}>
-                  Visit {id} <StatusBadge status={status} showText={false} />
-                </span>
-                <span className={cn("flex items-center gap-2")}>
-                  <BiUser /> {patientName}
-                </span>
-                <span className={cn("flex items-center gap-2")}>
-                  <BiCalendar /> {date.toDateString()}
-                  <BsClock /> {time}
-                </span>
-              </Container>
+            <Container className={cn("text-foreground/50 gap-2")}>
+              <span className={cn("text-foreground flex items-center gap-5")}>
+                Visit {id} <StatusBadge status={status} showText={false} />
+              </span>
+              <span className={cn("flex items-center gap-2")}>
+                <BiUser /> {patientName}
+              </span>
+              <span className={cn("flex items-center gap-2")}>
+                <BiCalendar /> {date.toDateString()}
+                <BsClock /> {time}
+              </span>
+            </Container>
 
-              <Container className={cn("flex-row-reverse")}>
+            <Container className={cn("flex-row-reverse")}>
+              <DialogTrigger asChild>
                 <MotionButton>
                   {status === "scheduled" ? "Continue" : "Show Details"}
                 </MotionButton>
-                {status === "pending" && (
-                  <MotionButton
-                    variant="outline"
-                    onClick={() => {
-                      acceptVisit({ visitId: id });
-                    }}
-                  >
-                    {isAccepting && <Spinner />}
-                    Start Visit
-                  </MotionButton>
-                )}
-              </Container>
+              </DialogTrigger>
+              {status === "pending" && (
+                <MotionButton
+                  disabled={isAccepting}
+                  variant="outline"
+                  onClick={() => {
+                    acceptVisit({ visitId: id });
+                  }}
+                >
+                  {isAccepting && <Spinner />}
+                  Accept Visit
+                </MotionButton>
+              )}
             </Container>
-
-            <Container
-              className={cn("absolute -inset-1")}
-              style={{ backgroundColor: `${bgColor}30`, filter: "blur(10px)" }}
-              variants={backgroundVariants}
-            />
           </Container>
-        </DialogTrigger>
+
+          <Container
+            className={cn("absolute -inset-1")}
+            style={{ backgroundColor: `${bgColor}30`, filter: "blur(10px)" }}
+            variants={backgroundVariants}
+          />
+        </Container>
         <DialogContent
           className={cn("max-h-screen max-w-3xl! overflow-y-auto")}
         >

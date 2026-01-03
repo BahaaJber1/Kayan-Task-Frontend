@@ -1,5 +1,4 @@
-import { BiDollar, BiTrendingUp } from "react-icons/bi";
-import { GrDocument } from "react-icons/gr";
+import { BiCheckCircle, BiDollar, BiTrendingUp } from "react-icons/bi";
 
 const cardData = [
   {
@@ -7,21 +6,35 @@ const cardData = [
     title: "Total Revenue",
     icon: BiDollar,
     iconColor: "#00c951",
-    number: "650",
+    calculate: (data) => {
+      return data?.reduce((total, visit) => total + Number(visit.amount), 0);
+    },
   },
   {
     id: 2,
     title: "Completed Visits",
-    icon: GrDocument,
-    iconColor: "#007bff",
-    number: "2",
+    icon: BiCheckCircle,
+    iconColor: "#2b7fff",
+    calculate: (data) => {
+      return data?.filter((visit) => visit.status === "completed")?.length;
+    },
   },
   {
     id: 3,
     title: "Average Visit Value",
     icon: BiTrendingUp,
     iconColor: "#8e44ad",
-    number: "325",
+    calculate: (data) => {
+      const completedVisits = data?.filter(
+        (visit) => visit.status === "completed",
+      );
+      if (completedVisits?.length === 0) return 0;
+      const totalRevenue = completedVisits?.reduce(
+        (total, visit) => total + Number(visit.amount),
+        0,
+      );
+      return (totalRevenue / completedVisits?.length).toFixed(2);
+    },
   },
 ];
 

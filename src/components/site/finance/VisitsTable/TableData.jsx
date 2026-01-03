@@ -30,12 +30,12 @@ import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import StatusBadge from "../../StatusBadge.jsx";
 
-const TableData = () => {
+const TableData = ({ visits = [] }) => {
   const [sortingAmount, setSortingAmount] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
   const table = useReactTable({
-    data: visitsData,
+    data: visits,
     columns: visitsTableColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -57,9 +57,9 @@ const TableData = () => {
         <InputGroup>
           <InputGroupInput
             placeholder="Search Doctor Name"
-            value={getColumn("doctor")?.getFilterValue() ?? ""}
+            value={getColumn("doctor_name")?.getFilterValue() ?? ""}
             onChange={(e) =>
-              getColumn("doctor")?.setFilterValue(e.target.value)
+              getColumn("doctor_name")?.setFilterValue(e.target.value)
             }
           />
           <InputGroupAddon>
@@ -69,9 +69,9 @@ const TableData = () => {
         <InputGroup>
           <InputGroupInput
             placeholder="Search Patient Name"
-            value={getColumn("patient")?.getFilterValue() ?? ""}
+            value={getColumn("patient_name")?.getFilterValue() ?? ""}
             onChange={(e) =>
-              getColumn("patient")?.setFilterValue(e.target.value)
+              getColumn("patient_name")?.setFilterValue(e.target.value)
             }
           />
           <InputGroupAddon>
@@ -125,6 +125,7 @@ const TableData = () => {
                 >
                   {row.getVisibleCells().map((cell) => {
                     const value = cell.getValue();
+                    console.log({ cell, value });
                     let displayValue;
 
                     if (cell.column.id === "treatments") {

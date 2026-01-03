@@ -77,6 +77,15 @@ const visitItemVariants = {
   },
 };
 
+const TIME_SLOTS = [
+  { label: "09:00 AM", value: "09:00" },
+  { label: "10:00 AM", value: "10:00" },
+  { label: "11:00 AM", value: "11:00" },
+  { label: "02:00 PM", value: "14:00" },
+  { label: "03:00 PM", value: "15:00" },
+  { label: "04:00 PM", value: "16:00" },
+];
+
 const PatientDashboard = () => {
   const doctors = useSelector((state) => state.user.doctors);
   const { visits, isLoading: isLoadingVisits } = useGetVisits();
@@ -213,12 +222,11 @@ const PatientDashboard = () => {
                           <SelectValue placeholder="Select a time" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="09:00">09:00 AM</SelectItem>
-                          <SelectItem value="10:00">10:00 AM</SelectItem>
-                          <SelectItem value="11:00">11:00 AM</SelectItem>
-                          <SelectItem value="14:00">02:00 PM</SelectItem>
-                          <SelectItem value="15:00">03:00 PM</SelectItem>
-                          <SelectItem value="16:00">04:00 PM</SelectItem>
+                          {TIME_SLOTS.map((slot) => (
+                            <SelectItem key={slot.value} value={slot.value}>
+                              {slot.label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       {fieldState.invalid && (

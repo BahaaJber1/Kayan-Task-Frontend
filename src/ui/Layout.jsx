@@ -1,3 +1,4 @@
+import { BASE_URL } from "@app/config/settings.js";
 import { setStartTheme } from "@app/store/slices/theme.slice.js";
 import { clearUser, setUser } from "@store/slices/user.slice.js";
 import { Outlet, useNavigate } from "@tanstack/react-router";
@@ -17,10 +18,9 @@ const Layout = () => {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const result = await axios.get(
-          "http://localhost:5000/api/v1/authentication/verify",
-          { withCredentials: true },
-        );
+        const result = await axios.get(`${BASE_URL}/authentication/verify`, {
+          withCredentials: true,
+        });
         dispatch(setUser(result.data.user));
         navigate({ to: "/dashboard" });
       } catch (error) {

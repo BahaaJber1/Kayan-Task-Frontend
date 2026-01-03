@@ -1,3 +1,4 @@
+import { BASE_URL } from "@app/config/settings.js";
 import Logo from "@components/application/Logo.jsx";
 import MotionButton from "@components/application/MotionButton.jsx";
 import ToggleTheme from "@components/application/ToggleTheme.jsx";
@@ -14,7 +15,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const logout = async () => {
     const result = await axios.post(
-      "http://localhost:5000/api/v1/authentication/signout",
+      `${BASE_URL}/authentication/signout`,
       {},
       { withCredentials: true },
     );

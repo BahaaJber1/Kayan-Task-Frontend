@@ -1,16 +1,13 @@
 import { cn } from "@lib/utils.js";
 import { cloneElement } from "react";
-import { BiAlarm, BiInfoCircle } from "react-icons/bi";
-import { CgSandClock } from "react-icons/cg";
-import { GrStatusGood } from "react-icons/gr";
+import { BiAlarm, BiCheckCircle, BiInfoCircle } from "react-icons/bi";
 import { MdCancel } from "react-icons/md";
 
 const statusConfig = {
-  completed: { color: "#10b981", icon: <GrStatusGood /> },
-  scheduled: { color: "#a855f7", icon: <CgSandClock /> },
+  completed: { color: "#10b981", icon: <BiCheckCircle /> },
   cancelled: { color: "#ef4444", icon: <MdCancel /> },
-  pending: { color: "#f59e0b", icon: <BiInfoCircle /> },
-  active: { color: "#3b82f6", icon: <BiAlarm /> },
+  pending: { color: "#ffcc00", icon: <BiInfoCircle /> },
+  active: { color: "#ff6900", icon: <BiAlarm /> },
 };
 
 const StatusBadge = ({ status, showText = true }) => {

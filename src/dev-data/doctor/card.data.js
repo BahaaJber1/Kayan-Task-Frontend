@@ -1,41 +1,35 @@
-import { BiUser } from "react-icons/bi";
-import { BsCalendar2 } from "react-icons/bs";
-import { CiClock2 } from "react-icons/ci";
-import { GrDocument } from "react-icons/gr";
+import { BiAlarm, BiCheckCircle, BiInfoCircle } from "react-icons/bi";
+import { PiStackFill } from "react-icons/pi";
 
 const cardData = [
   {
     id: 1,
     title: "Total Visits",
-    icon: BsCalendar2,
-    iconColor: "#00c951",
-    number: "2",
+    icon: PiStackFill,
+    iconColor: "#2b7fff",
     calculate: (visits) => visits?.length || 0,
   },
   {
     id: 2,
-    title: "Scheduled",
-    icon: CiClock2,
-    iconColor: "#ff6900",
-    number: "1",
-    calculate: (visits) =>
-      visits?.filter((v) => v.status === "scheduled").length || 0,
-  },
-  {
-    id: 3,
     title: "Active",
-    icon: BiUser,
-    iconColor: "#ffcc00",
-    number: "0",
+    icon: BiAlarm,
+    iconColor: "#ff6900",
     calculate: (visits) =>
       visits?.filter((v) => v.status === "active").length || 0,
   },
   {
+    id: 3,
+    title: "Pending",
+    icon: BiInfoCircle,
+    iconColor: "#ffcc00",
+    calculate: (visits) =>
+      visits?.filter((v) => v.status === "pending").length || 0,
+  },
+  {
     id: 4,
     title: "Completed",
-    icon: GrDocument,
-    iconColor: "#2b7fff",
-    number: "1",
+    icon: BiCheckCircle,
+    iconColor: "#10b981",
     calculate: (visits) =>
       visits?.filter((v) => v.status === "completed").length || 0,
   },

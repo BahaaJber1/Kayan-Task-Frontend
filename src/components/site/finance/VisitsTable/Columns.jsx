@@ -1,9 +1,10 @@
-import MotionButton from "@app/components/application/MotionButton.jsx";
+import MotionButton from "@components/application/MotionButton.jsx";
+import VisitDetails from "@components/site/VisitDetails.jsx";
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
-} from "@app/components/ui/dialog.jsx";
+} from "@components/ui/dialog.jsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,13 +12,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@app/components/ui/dropdown-menu.jsx";
-import { cn } from "@app/lib/utils.js";
+} from "@components/ui/dropdown-menu.jsx";
+import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
 import { ArrowUpDown } from "lucide-react";
 import { BiClipboard, BiDotsHorizontal } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
-import VisitDetails from "../../VisitDetails.jsx";
 
 const visitsTableColumns = [
   {
@@ -36,12 +36,14 @@ const visitsTableColumns = [
     ),
   },
   {
-    accessorKey: "doctor",
+    accessorKey: "doctor_name",
     header: "Doctor",
+    filterFn: "includesString",
   },
   {
-    accessorKey: "patient",
+    accessorKey: "patient_name",
     header: "Patient Name",
+    filterFn: "includesString",
   },
   {
     accessorKey: "date",
@@ -66,7 +68,7 @@ const visitsTableColumns = [
       </MotionButton>
     ),
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const amount = parseFloat(row.getValue("amount")) || 0;
       const formattedAmount = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",

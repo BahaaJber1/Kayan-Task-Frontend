@@ -211,7 +211,6 @@
 1. Added Toaster for notifications and integrated it into various components to provide user feedback on actions such as sign-in, sign-up, sign-out, booking visits, and accepting visits.
 1. Updated the related schemas in the `zod` folder to reflect any changes made in the API functions and hooks.
 
-
 ## TODO:
 
 - Add `React Query` for data fetching and state management. (On it)
@@ -219,4 +218,30 @@
 - Separate the `FieldError` into its own component for the animation part.
 - add `user verification` functionalities into the `useAuth` hook.
 - update the `input fields` inside the `AuthForm` component with icons.
+</details>
+
+---
+
+<details>
+<summary>
+
+## Jan 3, 2026:
+
+</summary>
+
+### Updates: (@BahaaJber1)
+
+1. Implemented the `Cancel Visit` functionality for both **patient** and **doctor** roles using the `useCancelVisit` function from the `useVisits` hook.
+1. Updated the `PatientVisitDetails` and `DoctorVisitDetails` components to include a "Cancel Visit" button that triggers the cancel visit action.
+1. Added loading states to the "Accept Visit" and "Cancel Visit" buttons to provide user feedback during the API request.
+1. Updated the `useVisits` hook to include the `useCancelVisit` function for handling visit cancellations.
+1. Improved error handling and notifications for the cancel visit action using Toaster.
+1. Refined the styling and layout of the visit details components for better user experience.
+
+## TODO:
+
+- Separate the `FieldError` into its own component for the animation part.
+- Add `user verification` functionalities into the `useAuth` hook.
+- Update the `input fields` inside the `AuthForm` component with icons.
+- Refactor the code for better readability and maintainability.
 </details>
