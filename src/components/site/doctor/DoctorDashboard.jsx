@@ -1,9 +1,11 @@
-import { cardData } from "@app/dev-data/doctor/card.data.js";
-import { visitsData } from "@app/dev-data/doctor/visits.data.js";
+import { useGetVisits } from "@api/useVisits.js";
 import Card from "@components/site/Card.jsx";
 import Visit from "@components/site/Visit.jsx";
+import { Spinner } from "@components/ui/spinner.jsx";
+import { cardData } from "@dev-data/doctor/card.data.js";
 import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
+import { Suspense } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -50 },
@@ -47,6 +49,7 @@ const visitItemVariants = {
 };
 
 const DoctorDashboard = () => {
+  const { visits } = useGetVisits();
   return (
     <Container
       className={cn("gap-10")}
@@ -68,9 +71,11 @@ const DoctorDashboard = () => {
             <Container
               className={cn("w-full")}
               variants={cardItemVariants}
+              initial="hidden"
+              animate="visible"
               key={card.id}
             >
-              <Card card={card} />
+              <Card card={card} visits={visits} />
             </Container>
           );
         })}
@@ -84,17 +89,27 @@ const DoctorDashboard = () => {
           </p>
         </Container>
 
-        {visitsData.map((visit) => {
-          return (
-            <Container
-              key={visit.id}
-              variants={visitItemVariants}
-              className={cn("gap-15")}
-            >
-              <Visit visit={visit} />
+        <Suspense
+          fallback={
+            <Container className={cn("flex-row items-center")}>
+              <Spinner /> Loading visits...
             </Container>
-          );
-        })}
+          }
+        >
+          {visits?.map((visit) => {
+            return (
+              <Container
+                key={visit.id}
+                variants={visitItemVariants}
+                initial="hidden"
+                animate="visible"
+                className={cn("gap-15")}
+              >
+                <Visit visit={visit} />
+              </Container>
+            );
+          })}
+        </Suspense>
       </Container>
     </Container>
   );

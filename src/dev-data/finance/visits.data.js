@@ -12,7 +12,7 @@ const visitsData = [
     time: "10:00 AM",
     medicalNotes:
       "Patient is recovering well from the surgery. Continue with prescribed medications and attend follow-up sessions.",
-    status: "Completed",
+    status: "completed",
   },
   {
     id: "02",
@@ -28,7 +28,7 @@ const visitsData = [
     time: "2:00 PM",
     medicalNotes:
       "Patient requires a follow-up in two weeks for further evaluation.",
-    status: "Scheduled",
+    status: "scheduled",
   },
   {
     id: "03",
@@ -44,7 +44,7 @@ const visitsData = [
     time: "11:30 AM",
     medicalNotes:
       "Patient has been advised to wear glasses full-time and return for a check-up in six months.",
-    status: "Cancelled",
+    status: "cancelled",
   },
   {
     id: "04",
@@ -58,7 +58,7 @@ const visitsData = [
     amount: 300,
     time: "12:30 AM",
     medicalNotes: "Everything is fine.",
-    status: "Completed",
+    status: "completed",
   },
   {
     id: "05",
@@ -73,7 +73,7 @@ const visitsData = [
     time: "2:00 PM",
     medicalNotes:
       "Patient shows signs of improvement. Continue with current treatment plan.",
-    status: "Completed",
+    status: "completed",
   },
   {
     id: "06",
@@ -89,7 +89,7 @@ const visitsData = [
     time: "11:30 AM",
     medicalNotes:
       "Patient needs to avoid known allergens and follow up in one month.",
-    status: "Scheduled",
+    status: "scheduled",
   },
 ];
 

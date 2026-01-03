@@ -1,3 +1,4 @@
+import { useBookVisit, useGetVisits } from "@api/useVisits.js";
 import MotionButton from "@components/application/MotionButton.jsx";
 import Card from "@components/site/Card.jsx";
 import DatePicker from "@components/site/DatePicker.jsx";
@@ -23,15 +24,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select.jsx";
+import { Spinner } from "@components/ui/spinner.jsx";
 import { Textarea } from "@components/ui/textarea.jsx";
 import { cardData } from "@dev-data/patient/card.data.js";
-import { visitsData } from "@dev-data/patient/visits.data.js";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
 import { bookVisitSchema } from "@zod/bookVisit.schema.js";
-import axios from "axios";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BiCalendarPlus } from "react-icons/bi";
 import { useSelector } from "react-redux";
@@ -78,7 +78,10 @@ const visitItemVariants = {
 };
 
 const PatientDashboard = () => {
-  const user = useSelector((state) => state.user.user);
+  const doctors = useSelector((state) => state.user.doctors);
+  const { visits, isLoading: isLoadingVisits } = useGetVisits();
+  const { bookVisit, isPending } = useBookVisit();
+
   const [openDialog, setOpenDialog] = useState(false);
   const form = useForm({
     mode: "all",
@@ -95,19 +98,7 @@ const PatientDashboard = () => {
   const { isDirty, isValid } = formState;
 
   const onSubmit = async (data) => {
-    const response = await axios.post(
-      "http://localhost:5000/api/v1/visits/book",
-      {
-        ...data,
-        patient: user,
-      },
-      { withCredentials: true },
-    );
-
-    if (response.status !== 200) {
-      return;
-    }
-
+    bookVisit(data);
     reset();
     setOpenDialog(false);
   };
@@ -135,7 +126,7 @@ const PatientDashboard = () => {
               variants={cardItemVariants}
               key={card.id}
             >
-              <Card card={card} />
+              <Card card={card} visits={visits} />
             </Container>
           );
         })}
@@ -177,9 +168,9 @@ const PatientDashboard = () => {
                           <SelectValue placeholder="Select a doctor" />
                         </SelectTrigger>
                         <SelectContent>
-                          {visitsData.map((visit) => (
-                            <SelectItem key={visit.id} value={visit.doctor}>
-                              {visit.doctor}
+                          {doctors.map((doctor) => (
+                            <SelectItem key={doctor.id} value={doctor.id}>
+                              {doctor.name}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -259,9 +250,10 @@ const PatientDashboard = () => {
 
               <MotionButton
                 type="submit"
-                disabled={!isDirty || !isValid}
+                disabled={!isDirty || !isValid || isPending}
                 className={cn("w-1/2 self-end")}
               >
+                {isPending && <Spinner />}
                 Book Visit
               </MotionButton>
             </form>
@@ -277,17 +269,27 @@ const PatientDashboard = () => {
           </p>
         </Container>
 
-        {visitsData.map((visit) => {
-          return (
-            <Container
-              key={visit.id}
-              variants={visitItemVariants}
-              className={cn("gap-15")}
-            >
-              <Visit visit={visit} />
+        <Suspense
+          fallback={
+            <Container className={cn("flex-row items-center")}>
+              <Spinner /> Loading visits...
             </Container>
-          );
-        })}
+          }
+        >
+          {visits?.map((visit) => {
+            return (
+              <Container
+                key={visit.id}
+                variants={visitItemVariants}
+                initial="hidden"
+                animate="visible"
+                className={cn("gap-15")}
+              >
+                <Visit visit={visit} variants={visitItemVariants} />
+              </Container>
+            );
+          })}
+        </Suspense>
       </Container>
     </Container>
   );

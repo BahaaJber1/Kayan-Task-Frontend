@@ -29,8 +29,10 @@ const backgroundVariants = {
   },
 };
 
-const Card = ({ card, ...props }) => {
-  const { title: text, icon: Icon, number, iconColor } = card;
+const Card = ({ card, visits, ...props }) => {
+  const { title: text, icon: Icon, calculate, iconColor } = card;
+  const number = calculate ? calculate(visits) : 0;
+
   return (
     <Container
       className={cn("relative w-full rounded-lg")}

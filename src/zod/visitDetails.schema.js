@@ -21,7 +21,7 @@ const visitDetailsSchema = z.object({
   ),
   medicalNotes: z
     .string()
-    .min(1, "Medical notes are required")
+    .min(15, "Medical notes must be at least 15 characters")
     .max(500, "Medical notes must be at most 500 characters"),
 });
 

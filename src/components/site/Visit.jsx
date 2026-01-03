@@ -1,3 +1,4 @@
+import { useAcceptVisit } from "@api/useVisits.js";
 import MotionButton from "@components/application/MotionButton.jsx";
 import StatusBadge from "@components/site/StatusBadge.jsx";
 import VisitDetails from "@components/site/VisitDetails.jsx";
@@ -6,6 +7,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@components/ui/dialog.jsx";
+import { Spinner } from "@components/ui/spinner.jsx";
 import { cn } from "@lib/utils.js";
 import Container from "@ui/Container.jsx";
 import { useState } from "react";
@@ -42,15 +44,26 @@ const backgroundVariants = {
 };
 
 const statusColors = {
-  Completed: "#10b981",
-  Scheduled: "#a855f7",
-  Cancelled: "#ef4444",
+  completed: "#10b981",
+  scheduled: "#a855f7",
+  cancelled: "#ef4444",
+  pending: "#f59e0b",
+  active: "#3b82f6",
 };
 
 const Visit = ({ visit }) => {
   const [open, setOpen] = useState(false);
   const { role } = useSelector((state) => state.user.user);
-  const { id, date, doctor, time, status, patient } = visit;
+  const { acceptVisit, isPending: isAccepting } = useAcceptVisit();
+  const {
+    id,
+    date: dateString,
+    doctor_name: doctorName,
+    time,
+    status,
+    patient_name: patientName,
+  } = visit;
+  const date = new Date(dateString);
   const bgColor = statusColors[status];
 
   if (role === "patient")
@@ -74,12 +87,12 @@ const Visit = ({ visit }) => {
             >
               <Container className={cn("gap-2")}>
                 <span className={cn("flex items-center gap-5")}>
-                  Visit #V{id} <StatusBadge status={status} />
+                  Visit {id} <StatusBadge status={status} showText={false} />
                 </span>
                 <span
                   className={cn("text-foreground/50 flex items-center gap-2")}
                 >
-                  <BiUser /> {doctor}
+                  <BiUser /> {doctorName}
                 </span>
               </Container>
               <Container className={cn("text-foreground/50 gap-2")}>
@@ -124,10 +137,10 @@ const Visit = ({ visit }) => {
             >
               <Container className={cn("text-foreground/50 gap-2")}>
                 <span className={cn("text-foreground flex items-center gap-5")}>
-                  Visit #V{id} <StatusBadge status={status} />
+                  Visit {id} <StatusBadge status={status} showText={false} />
                 </span>
                 <span className={cn("flex items-center gap-2")}>
-                  <BiUser /> {patient}
+                  <BiUser /> {patientName}
                 </span>
                 <span className={cn("flex items-center gap-2")}>
                   <BiCalendar /> {date.toDateString()}
@@ -135,10 +148,21 @@ const Visit = ({ visit }) => {
                 </span>
               </Container>
 
-              <Container>
+              <Container className={cn("flex-row-reverse")}>
                 <MotionButton>
-                  {status === "Scheduled" ? "Continue" : "Show Details"}
+                  {status === "scheduled" ? "Continue" : "Show Details"}
                 </MotionButton>
+                {status === "pending" && (
+                  <MotionButton
+                    variant="outline"
+                    onClick={() => {
+                      acceptVisit({ visitId: id });
+                    }}
+                  >
+                    {isAccepting && <Spinner />}
+                    Start Visit
+                  </MotionButton>
+                )}
               </Container>
             </Container>
 

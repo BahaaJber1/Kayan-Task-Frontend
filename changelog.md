@@ -176,7 +176,6 @@
 1. Updated the `ProtectedRoute` component to check for the user's role from the Redux store to determine if they are authenticated and authorized to access protected routes. If not, it redirects them to the sign-in page `/`.
 1. Wrapped the entire application with the `ProtectedRoute` component
 
-
 ## TODO:
 
 - Add `React Query` for data fetching and state management. After creating the backend APIs.
@@ -184,4 +183,40 @@
 - Implement the `Cancel Visit` functionality for the **patient** & **doctor** roles.
 - Separate the `FieldError` into its own component for the animation part.
 - Update the `PatientDashboard` to show the relevant data/errors after booking a visit.
+</details>
+
+---
+
+<details>
+<summary>
+
+## Jan 2, 2026:
+
+</summary>
+
+### Updates: (@BahaaJber1)
+
+1. Created the `api` folder to organize all API-related functions.
+1. Created the `axios instance` file to set up a centralized Axios instance with default configurations for making HTTP requests to the backend API.
+1. Created the `getDoctors` API function to fetch the list of doctors from the backend and display them in the `PatientDashboard` component's doctor selection dropdown when booking a visit. The data is pre-fetched using React Query.
+1. Implemented the `useAuth` custom hook to encapsulate authentication-related logic, including sign-in, sign-up, sign-out.
+1. Implemented the `useVisits` custom hook to encapsulate visit-related logic, including fetching visits, booking visits, completing visits, and accepting visits using React Query for data fetching and state management.
+1. Updated the `AuthForm` component to utilize the `useAuth` hook for handling authentication actions.
+1. Updated the `DoctorDashboard` & `PatientDashboard` components to utilize the `useVisits` hook for handling visit-related actions.
+1. Updated the `Card` component to accept dynamic data and display it appropriately in both dashboards.
+1. Updated the `StatusBadge` component to handle different visit statuses (active) more effectively.
+1. Added the ability for doctors to accept visits from their dashboard using the `useAcceptVisit` function from the `useVisits` hook.
+1. Updated the `VisitDetails` component to show different information based on the user's role (patient or doctor).
+1. Created the `settings.js` file to store application settings, such as the API base URL.
+1. Added Toaster for notifications and integrated it into various components to provide user feedback on actions such as sign-in, sign-up, sign-out, booking visits, and accepting visits.
+1. Updated the related schemas in the `zod` folder to reflect any changes made in the API functions and hooks.
+
+
+## TODO:
+
+- Add `React Query` for data fetching and state management. (On it)
+- Implement the `Cancel Visit` functionality for the **patient** & **doctor** roles.
+- Separate the `FieldError` into its own component for the animation part.
+- add `user verification` functionalities into the `useAuth` hook.
+- update the `input fields` inside the `AuthForm` component with icons.
 </details>

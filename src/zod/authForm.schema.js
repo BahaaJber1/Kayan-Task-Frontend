@@ -16,7 +16,10 @@ const authFormSchema = z.object({
     }),
   role: z.optional(z.enum(["patient", "doctor", "finance"])),
   name: z.optional(
-    z.string().min(3, "Name must be at least 3 characters long"),
+    z
+      .string()
+      .min(3, "Name must be at least 3 characters long")
+      .max(20, "Name must be at most 20 characters long"),
   ),
 });
 

@@ -9,7 +9,7 @@ const bookVisitSchema = z.object({
   time: z.string().min(1, "Please select a time"),
   notes: z
     .string()
-    .min(1, "Notes are required")
+    .min(15, "Notes must be at least 15 characters long")
     .max(500, "Notes must be at most 500 characters"),
 });
 

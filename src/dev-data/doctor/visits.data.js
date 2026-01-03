@@ -4,7 +4,7 @@ const visitsData = [
     date: new Date(),
     patient: "John Smith",
     time: "10:00 AM",
-    status: "Completed",
+    status: "completed",
     treatments: [
       { name: "General Checkup", value: "100" },
       { name: "Blood Test", value: "100" },
@@ -18,7 +18,7 @@ const visitsData = [
     date: new Date(),
     patient: "Emily Johnson",
     time: "2:00 PM",
-    status: "Scheduled",
+    status: "scheduled",
     total: "",
   },
   {
@@ -26,8 +26,17 @@ const visitsData = [
     date: new Date(),
     patient: "Michael Brown",
     time: "4:30 PM",
-    status: "Cancelled",
+    status: "cancelled",
     total: "$0",
+  },
+  {
+    id: "04",
+    date: new Date(),
+    patient: "Sarah Davis",
+    time: "11:15 AM",
+    status: "pending",
+    total: "",
+    patientNotes: "My head has been hurting for two days.",
   },
 ];
 

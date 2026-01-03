@@ -1,4 +1,4 @@
-import { authFormSchema } from "@zod/authForm.schema.js";
+import { useSignin, useSignup } from "@api/useAuth.js";
 import Logo from "@components/application/Logo.jsx";
 import MotionButton from "@components/application/MotionButton.jsx";
 import {
@@ -16,22 +16,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select.jsx";
+import { Spinner } from "@components/ui/spinner.jsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@lib/utils.js";
-import { setUser } from "@app/store/slices/user.slice.js";
-import { useNavigate } from "@tanstack/react-router";
 import Container from "@ui/Container.jsx";
-import axios from "axios";
+import { authFormSchema } from "@zod/authForm.schema.js";
 import { AnimatePresence, motion as m } from "motion/react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 
 const AuthForm = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
+  const { signin, isPending: isSigninPending } = useSignin();
+  const { signup, isPending: isSignupPending } = useSignup();
   const [mode, setMode] = useState("signin");
+  
   const form = useForm({
     mode: "all",
     defaultValues: {
@@ -47,32 +45,15 @@ const AuthForm = () => {
   const { isDirty, isValid } = formState;
 
   const onSubmit = async (data) => {
-    let result;
     if (mode === "signup") {
-      result = await axios.post(
-        "http://localhost:5000/api/v1/users/signup",
-        data,
-        { withCredentials: true },
-      );
-    }
-    if (mode === "signin") {
-      result = await axios.post(
-        "http://localhost:5000/api/v1/users/signin",
-        data,
-        { withCredentials: true },
-      );
-    }
-
-    if (result.status !== 200) {
+      signup(data);
       return;
     }
-
-    dispatch(setUser(result.data.user));
-    navigate({ to: "/dashboard" });
-
-    reset();
-    setValue("role", undefined);
-    setValue("name", undefined);
+    if (mode === "signin") {
+      signin(data);
+      setValue("password", "", { shouldValidate: true });
+      return;
+    }
   };
 
   const toggleMode = () => {
@@ -190,10 +171,11 @@ const AuthForm = () => {
         </FieldGroup>
         <MotionButton
           type="submit"
-          className={cn("w-full")}
+          className={cn("w-full gap-5")}
           disabled={!isValid || !isDirty}
           whileHover={{ scale: 1.02 }}
         >
+          {(isSigninPending || isSignupPending) && <Spinner />}
           {mode === "signin" ? "Sign In" : "Sign Up"}
         </MotionButton>
       </form>

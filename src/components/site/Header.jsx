@@ -14,7 +14,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const logout = async () => {
     const result = await axios.post(
-      "http://localhost:5000/api/v1/users/signout",
+      "http://localhost:5000/api/v1/authentication/signout",
       {},
       { withCredentials: true },
     );

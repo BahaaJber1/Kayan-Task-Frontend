@@ -1,3 +1,4 @@
+import { useCompleteVisit } from "@api/useVisits.js";
 import MotionButton from "@components/application/MotionButton.jsx";
 import StatusBadge from "@components/site/StatusBadge.jsx";
 import {
@@ -7,6 +8,7 @@ import {
   FieldLabel,
 } from "@components/ui/field.jsx";
 import { Input } from "@components/ui/input.jsx";
+import { Spinner } from "@components/ui/spinner.jsx";
 import { Textarea } from "@components/ui/textarea.jsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useScrollToBottom from "@hooks/useScrollToBottom.jsx";
@@ -70,16 +72,19 @@ const errorVariants = {
 
 const VisitDetails = ({ visit, onClose }) => {
   const { role } = useSelector((state) => state.user.user);
+  const { completeVisit, isPending: isCompletingVisit } = useCompleteVisit();
   const {
     id,
-    date,
-    doctor,
+    date: dateString,
+    doctor_name: doctorName,
     time,
     status,
-    patient,
+    patient_name: patientName,
     treatments: mockTreatments,
     medicalNotes,
   } = visit;
+
+  const date = new Date(dateString);
   const form = useForm({
     mode: "all",
     defaultValues: {
@@ -89,7 +94,7 @@ const VisitDetails = ({ visit, onClose }) => {
     resolver: zodResolver(visitDetailsSchema),
   });
   const { handleSubmit, control, formState, reset, watch } = form;
-  const { isValid, isDirty, errors } = formState;
+  const { isValid, isDirty } = formState;
 
   const treatmentsArray = useFieldArray({
     control: control,
@@ -104,9 +109,19 @@ const VisitDetails = ({ visit, onClose }) => {
 
   const [allTreatments, name] = watch(["treatments", "treatments.name"]);
   const scrollRef = useScrollToBottom(allTreatments.length);
+  const amount = allTreatments?.reduce(
+    (total, treatment) => total + Number(treatment.value),
+    0,
+  );
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    completeVisit({
+      visitId: id,
+      treatments: data.treatments,
+      medicalNotes: data.medicalNotes,
+      amount,
+    });
+
     reset();
     onClose();
   };
@@ -123,7 +138,7 @@ const VisitDetails = ({ visit, onClose }) => {
             "bg-background sticky top-0 flex items-center justify-between py-5 text-2xl font-semibold",
           )}
         >
-          Visit Details - Dr. {doctor}
+          Visit Details - Dr. {doctorName}
           <StatusBadge status={status} />
         </h2>
         <Container className={cn("bg-foreground/5 rounded-lg p-5")}>
@@ -170,11 +185,7 @@ const VisitDetails = ({ visit, onClose }) => {
                 <span className={cn("text-xl")}>Total Amount</span>
               </Container>
               <span className={cn("text-xl font-bold text-blue-500")}>
-                $
-                {treatmentsFields?.reduce(
-                  (total, treatment) => total + Number(treatment?.value),
-                  0,
-                )}
+                ${amount}
               </span>
             </Container>
           </Container>
@@ -191,7 +202,7 @@ const VisitDetails = ({ visit, onClose }) => {
           </Container>
         )}
 
-        {status === "Scheduled" && (
+        {status === "scheduled" && (
           <Container className={cn("mt-5 flex-row justify-end")}>
             <MotionButton variant="destructive" onClick={onClose}>
               Cancel Visit
@@ -213,7 +224,7 @@ const VisitDetails = ({ visit, onClose }) => {
             "bg-background sticky top-0 flex items-center justify-between py-5 text-2xl font-semibold",
           )}
         >
-          Visit Details - {patient}
+          Visit Details - {patientName}
           <StatusBadge status={status} />
         </h2>
         <Container className={cn("bg-foreground/5 rounded-lg p-5")}>
@@ -249,7 +260,7 @@ const VisitDetails = ({ visit, onClose }) => {
                         {...field}
                         type="text"
                         placeholder="Treatment name"
-                        disabled={status !== "Scheduled"}
+                        disabled={status !== "scheduled"}
                       />
                       {fieldState.invalid && (
                         <AnimatedErrorField
@@ -272,7 +283,7 @@ const VisitDetails = ({ visit, onClose }) => {
                         {...field}
                         type="number"
                         placeholder="Value"
-                        disabled={status !== "Scheduled"}
+                        disabled={status !== "scheduled"}
                       />
                       {fieldState.invalid && (
                         <AnimatedErrorField
@@ -290,14 +301,14 @@ const VisitDetails = ({ visit, onClose }) => {
                     type="button"
                     onClick={() => addTreatment({ name, value: 0 })}
                     disabled={
-                      status !== "Scheduled" || allTreatments.length >= 10
+                      status !== "scheduled" || allTreatments.length >= 10
                     }
                   >
                     <BiPlus />
                   </MotionButton>
 
                   <AnimatePresence mode="wait">
-                    {allTreatments.length > 1 && status === "Scheduled" ? (
+                    {allTreatments.length > 1 && status === "scheduled" ? (
                       <Container
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -330,7 +341,7 @@ const VisitDetails = ({ visit, onClose }) => {
                       {...field}
                       placeholder="Medical notes and observations..."
                       className={cn("min-h-[8lh] resize-none")}
-                      disabled={status !== "Scheduled"}
+                      disabled={status !== "scheduled"}
                     />
                     {fieldState.invalid && (
                       <AnimatedErrorField
@@ -365,15 +376,21 @@ const VisitDetails = ({ visit, onClose }) => {
             <Container className={cn("mt-5 flex-row justify-end gap-2")}>
               <MotionButton
                 variant="destructive"
-                disabled={status !== "Scheduled"}
+                disabled={status !== "scheduled"}
                 onClick={onClose}
               >
                 Cancel Visit
               </MotionButton>
               <MotionButton
                 type="submit"
-                disabled={!isDirty || !isValid || status !== "Scheduled"}
+                disabled={
+                  !isDirty ||
+                  !isValid ||
+                  status !== "scheduled" ||
+                  isCompletingVisit
+                }
               >
+                {isCompletingVisit && <Spinner />}
                 Complete Visit
               </MotionButton>
             </Container>

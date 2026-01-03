@@ -3,8 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: {
     role: "",
+    name: "",
     email: "",
   },
+  doctors: [],
 };
 
 const userSlice = createSlice({
@@ -17,9 +19,12 @@ const userSlice = createSlice({
     clearUser: (state) => {
       state = initialState;
     },
+    setDoctor(state, action) {
+      state.doctors = action.payload;
+    },
   },
 });
 
 const userReducer = userSlice.reducer;
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser, setDoctor } = userSlice.actions;
 export default userReducer;

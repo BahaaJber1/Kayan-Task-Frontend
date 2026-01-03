@@ -8,21 +8,24 @@ const cardData = [
     title: "Total Visits",
     icon: BsCalendar2,
     iconColor: "#00c951",
-    number: "1",
+    calculate: (visits) => visits?.length || 0,
   },
   {
     id: 2,
     title: "Upcoming",
     icon: CiClock2,
     iconColor: "#ff6900",
-    number: "1",
+    calculate: (visits) =>
+      visits?.filter((v) => v.status === "pending" || v.status === "scheduled")
+        .length || 0,
   },
   {
     id: 3,
     title: "Completed",
     icon: Stethoscope,
     iconColor: "#2b7fff",
-    number: "1",
+    calculate: (visits) =>
+      visits?.filter((v) => v.status === "completed").length || 0,
   },
 ];
 

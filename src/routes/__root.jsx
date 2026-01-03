@@ -1,8 +1,4 @@
-import {
-  HeadContent,
-  Scripts,
-  createRootRoute
-} from "@tanstack/react-router";
+import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import Layout from "@ui/Layout.jsx";
 import Providers from "@ui/Providers.jsx";
 

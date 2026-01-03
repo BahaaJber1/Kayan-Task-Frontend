@@ -18,7 +18,8 @@
       "@ui/*": ["./src/ui/*"],
       "@utils/*": ["./src/utils/*"],
       "@zod": ["./src/zod/*"],
-      "@dev-data/*": ["./src/dev-data/*"]
+      "@dev-data/*": ["./src/dev-data/*"],
+      "@api/*": ["./src/api/*"]
     }
   }
 }

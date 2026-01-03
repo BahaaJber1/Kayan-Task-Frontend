@@ -11,6 +11,7 @@ export default defineConfig({
     tanstackRouter({
       target: "react",
       autoCodeSplitting: true,
+      disableTypes: true,
     }),
     react(),
     tailwindcss(),
@@ -31,6 +32,7 @@ export default defineConfig({
       "@ui": resolve("./src/ui"),
       "@zod": resolve("./src/zod"),
       "@dev-data": resolve("./src/dev-data"),
+      "@api": resolve("./src/api"),
     },
   },
 });
