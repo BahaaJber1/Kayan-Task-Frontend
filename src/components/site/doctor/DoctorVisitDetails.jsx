@@ -293,7 +293,7 @@ const DoctorVisitDetails = ({
             <MotionButton
               type="button"
               variant="destructive"
-              disabled={status !== "active"}
+              disabled={status !== "active" && status !== "pending"}
               onClick={handleCancelVisit}
             >
               {isCancellingVisit && <Spinner />}
