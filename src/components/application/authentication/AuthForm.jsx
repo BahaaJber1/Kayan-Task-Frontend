@@ -54,7 +54,6 @@ const AuthForm = () => {
       resetField("password", {
         keepError: false,
       });
-
       return;
     }
   };
