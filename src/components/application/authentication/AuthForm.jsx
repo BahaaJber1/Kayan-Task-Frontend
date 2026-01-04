@@ -29,7 +29,7 @@ const AuthForm = () => {
   const { signin, isPending: isSigninPending } = useSignin();
   const { signup, isPending: isSignupPending } = useSignup();
   const [mode, setMode] = useState("signin");
-  
+
   const form = useForm({
     mode: "all",
     defaultValues: {
@@ -41,7 +41,7 @@ const AuthForm = () => {
     resolver: zodResolver(authFormSchema),
   });
 
-  const { handleSubmit, control, reset, formState, setValue } = form;
+  const { handleSubmit, control, formState, setValue, resetField } = form;
   const { isDirty, isValid } = formState;
 
   const onSubmit = async (data) => {
@@ -51,7 +51,10 @@ const AuthForm = () => {
     }
     if (mode === "signin") {
       signin(data);
-      setValue("password", "", { shouldValidate: true });
+      resetField("password", {
+        keepError: false,
+      });
+
       return;
     }
   };
